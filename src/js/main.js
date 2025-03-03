@@ -46,7 +46,7 @@ const books = [
         kartya.dataset.id = books[i].id;
 
         const kep = document.createElement("img");
-        kep.src = books[i].image;
+        kep.src = `./img/${books[i].image}`;
         kep.alt = books[i].title;
         kep.classList.add('w-full', 'h-48', 'object-cover', 'rounded');
 
