@@ -37,65 +37,88 @@ const books = [
   
   // Könyvek megjelenítése
   function renderBooks() {
-    const kontener = document.getElementById("book-container")
-    
+    const kontener = document.getElementById("book-container");
+    kontener.innerHTML = "";
+
     for (let i = 0; i < books.length; i++) {
-      const kartya = document.createElement("div")
-      kartya.classList.add('bg-gray-800', 'p-4', 'rounded', 'shadow', 'flex', 'flex-col', 'items-start')
-      const data_id = books[i].id
+        const kartya = document.createElement("div");
+        kartya.classList.add('bg-gray-800', 'p-4', 'rounded', 'shadow', 'flex', 'flex-col', 'items-start');
+        kartya.dataset.id = books[i].id;
 
-      const kep = document.createElement("img")
-      kep.src = books[i].image
-      kep.alt = books[i].title
-      kep.classList.add('w-full', 'h-48', 'object-cover', 'rounded')
+        const kep = document.createElement("img");
+        kep.src = books[i].image;
+        kep.alt = books[i].title;
+        kep.classList.add('w-full', 'h-48', 'object-cover', 'rounded');
 
-      const szoveg = document.createElement("div")
-      szoveg.classList.add('flex', 'flex-cool')
-        const szovegCim = document.createElement("span")
-        szovegCim.textContent = books[i].title
-        szovegCim.classList.add('text-lg', 'font-semibold', 'text-white')
-        if (books[i].read === true) {
-          szovegCim.classList.add('line-through')
+        const szoveg = document.createElement("div");
+        szoveg.classList.add('flex', 'flex-col');
+
+        const szovegCim = document.createElement("span");
+        szovegCim.textContent = books[i].title;
+        szovegCim.classList.add('text-lg', 'font-semibold', 'text-white');
+        if (books[i].read) {
+            szovegCim.classList.add('line-through');
         }
 
-        const szovegSzerzo = document.createElement("span")
-        szovegSzerzo.textContent = books[i].author
-        szovegSzerzo.classList.add('text-gray-200')
-      
-      const gombok = document.createElement("div")
-      gombok.classList.add('flex', 'gap-2', 'mt-2')
-        const elolvasvaGomb = document.createElement("button")
-        elolvasvaGomb.textContent = "Elolvasva"
-        elolvasvaGomb.classList.add('bg-green-600', 'text-white', 'p-2', 'rounded', 'hover:bg-green-600', 'transition')
-        Attr:elolvasvaGomb = data_id
-        
-        const torlesGomb = document.createElement("button")
-        torlesGombGomb.textContent = "Törlés"
-        torlesGombGomb.classList.add('bg-red-600', 'text-white', 'p-2', 'rounded', 'hover:bg-red-600', 'transition')
-        Attr:torlesGomb = data_id
+        const szovegSzerzo = document.createElement("span");
+        szovegSzerzo.textContent = books[i].author;
+        szovegSzerzo.classList.add('text-gray-200');
 
-        szoveg.append(szovegCim, szovegSzerzo)
-        gombok.append(torlesGomb, elolvasvaGomb)
-        kartya.append(kep, szoveg, gombok)
-        kontener.append(kartya)
-    }
-}
-  
-  // Törlés
-  function deleteBook(id) {
-    kartyaTorles = kontener
+        const gombok = document.createElement("div");
+        gombok.classList.add('flex', 'gap-2', 'mt-2');
 
-    if (kartyaTorles) {
-      kontener.removeChild(kartyaTorles)
+        const elolvasvaGomb = document.createElement("button");
+        elolvasvaGomb.textContent = "Elolvasva";
+        elolvasvaGomb.classList.add('bg-green-600', 'text-white', 'p-2', 'rounded', 'hover:bg-green-700', 'transition');
+        elolvasvaGomb.dataset.id = books[i].id;
+        elolvasvaGomb.addEventListener("click", function() { // <-- ChatGPT adta hozzá, azt mondta ez a hiba
+            toggleRead(Number(this.dataset.id));
+        });
+
+        const torlesGomb = document.createElement("button");
+        torlesGomb.textContent = "Törlés";
+        torlesGomb.classList.add('bg-red-600', 'text-white', 'p-2', 'rounded', 'hover:bg-red-700', 'transition');
+        torlesGomb.dataset.id = books[i].id;
+        torlesGomb.addEventListener("click", function() { // <-- ChatGPT adta hozzá, azt mondta ez a hiba
+            deleteBook(Number(this.dataset.id));
+        });
+
+        szoveg.append(szovegCim, szovegSzerzo);
+        gombok.append(torlesGomb, elolvasvaGomb);
+        kartya.append(kep, szoveg, gombok);
+        kontener.append(kartya);
     }
   }
-  
+
+  // Könyv törlése
+  function deleteBook(id) {
+    const kontener = document.getElementById("book-container");
+    const bookCard = kontener.querySelector(`[data-id='${id}']`);
+
+    if (bookCard) {
+        kontener.removeChild(bookCard);
+
+        for (let i = 0; i < books.length; i++) {
+            if (books[i].id === id) {
+                books.splice(i, 1);
+                break;
+            }
+        }
+    }
+  }
+
   // Olvasva állapot jelölése
   function toggleRead(id) {
-    
+    for (let i = 0; i < books.length; i++) {
+        if (books[i].id === id) {
+            books[i].read =! books[i].read;
+            break;
+        }
+    }
+    renderBooks();
   }
-  
 
+  // Könyvek inicializálása
   renderBooks();
 
 
