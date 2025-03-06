@@ -84,7 +84,7 @@ function renderBooks() {
     kontener.append(kartya);
   }
 
-  // Gombokhoz eseményfigyelők újra hozzárendelése
+  // Gombokhoz eseményfigyelők újra hozzárendelése // *** ChatGPT (nem tudtam egyedül) ***
   document.querySelectorAll('.bg-green-600').forEach(button => {
     button.addEventListener('click', function () {
       const id = Number(button.dataset.id);
