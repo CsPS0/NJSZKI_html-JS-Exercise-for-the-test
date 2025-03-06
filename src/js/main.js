@@ -22,12 +22,14 @@ const books = [
   oldalCim.textContent = "Könyvgyűjtemény"
   oldalCim.classList.add('text-3xl', 'font-bold', 'text-center', 'text-white', 'p-4', 'bg-gray-800')
   fejlec.append(oldalCim)
+
   // Main
   const fo = document.getElementById("main")
   const konyvekTartalom = document.createElement("div")
   konyvekTartalom.id = "book-container"
   konyvekTartalom.classList.add('grid', 'gap-6', 'p-6', 'max-w-4xl', 'mx-auto', 'grid-cols-1', 'md:grid-cols-3')
   fo.append(konyvekTartalom)
+  
   // Footer
   const lablec = document.getElementById("footer")
   const keszitoNev = document.createElement("p")
@@ -120,10 +122,6 @@ const books = [
 
   // Könyvek inicializálása
   renderBooks();
-
-
-
-
   
   //Ehhez ne nyúljon
   document.querySelectorAll('.bg-green-600').forEach(button => {
